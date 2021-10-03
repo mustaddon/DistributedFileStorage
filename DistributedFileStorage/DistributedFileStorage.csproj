@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+	<LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\DistributedFileStorage.snk</AssemblyOriginatorKeyFile>
+    
+	<AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <Version>1.0.0-rc1</Version>
+	
+	<Company></Company>
+    <Authors>Leonid Salavatov</Authors>
+    <Copyright>Leonid Salavatov 2021</Copyright>
+    <PackageId>DistributedFileStorage</PackageId>
+    <Product>DistributedFileStorage</Product>
+    <Title>DistributedFileStorage</Title>
+    <Description>.NET Distributed file storage</Description>
+    <PackageTags>distributed filestorage dotnet</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/mustaddon/DistributedFileStorage</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mustaddon/DistributedFileStorage</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <NeutralLanguage />
+    <PackageReleaseNotes></PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DistributedFileStorage.Abstractions\DistributedFileStorage.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
