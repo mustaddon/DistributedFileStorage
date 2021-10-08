@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DistributedFileStorage
@@ -6,9 +7,9 @@ namespace DistributedFileStorage
     public interface IDfsDatabase<TMetadata>
     {
         Task Add(DfsDbItem<TMetadata> item, CancellationToken cancellationToken = default);
-        Task<DfsDbItem<TMetadata>> Delete(string id, CancellationToken cancellationToken = default);
-        Task<DfsDbItem<TMetadata>> Get(string id, CancellationToken cancellationToken = default);
         Task Update(string id, string name, TMetadata? metadata, CancellationToken cancellationToken = default);
+        Task<DfsDbItem<TMetadata>> Delete(string id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<DfsDbItem<TMetadata>>> Get(IEnumerable<string> ids, CancellationToken cancellationToken = default);
         Task<string?> GetPath(string hash, CancellationToken cancellationToken = default);
     }
 

@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,10 +11,10 @@ namespace DistributedFileStorage.EntityFrameworkCore
 {
     public class DfsDatabase<TMetadata> : IDfsDatabase<TMetadata>
     {
-        public DfsDatabase(DfsDbContext context, DfsDbSettings? settings = null)
+        public DfsDatabase(DfsDbSettings? settings = null)
         {
-            _context = context;
             _settings = settings ?? new();
+            _context = new(_settings.ContextConfigurator);
         }
 
         readonly DfsDbContext _context;
@@ -26,6 +29,9 @@ namespace DistributedFileStorage.EntityFrameworkCore
                 Metadata = SerializeMetadata(item.Metadata),
                 ContentId = item.Hash,
             };
+
+            if (fileInfo.Metadata?.Length > _settings.MaxMetadataLength)
+                throw new InvalidOperationException($"Metadata length limit exceeded ({fileInfo.Metadata?.Length}/{_settings.MaxMetadataLength})");
 
             var contentInfo = new DfsDbContentInfo
             {
@@ -46,11 +52,15 @@ namespace DistributedFileStorage.EntityFrameworkCore
             });
         }
 
-        public async Task<DfsDbItem<TMetadata>> Get(string id, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<DfsDbItem<TMetadata>>> Get(IEnumerable<string> ids, CancellationToken cancellationToken = default)
         {
-            return Map(await _context.DfsFileInfo.AsNoTracking()
+            var idsArray = (ids as string[]) ?? ids.ToArray();
+            return (await _context.DfsFileInfo.AsNoTracking()
                 .Include(x => x.Content)
-                .SingleAsync(x => x.Id == id, cancellationToken));
+                .Where(x => idsArray.Contains(x.Id))
+                .Take(idsArray.Length)
+                .ToListAsync(cancellationToken))
+                .Select(Map);
         }
 
 
@@ -62,7 +72,7 @@ namespace DistributedFileStorage.EntityFrameworkCore
 
         public async Task Update(string id, string name, TMetadata? metadata, CancellationToken cancellationToken = default)
         {
-            var entity = await _context.DfsFileInfo.SingleAsync(x => x.Id == id, cancellationToken);
+            var entity = await _context.DfsFileInfo.SingleOrDefaultAsync(x => x.Id == id, cancellationToken) ?? throw new FileNotFoundException();
             entity.Name = name;
             entity.Metadata = SerializeMetadata(metadata);
             await _context.SaveChangesAsync(cancellationToken);
@@ -70,7 +80,8 @@ namespace DistributedFileStorage.EntityFrameworkCore
 
         public async Task<DfsDbItem<TMetadata>> Delete(string id, CancellationToken cancellationToken = default)
         {
-            var entity = await _context.DfsFileInfo.Include(x => x.Content).SingleAsync(x => x.Id == id, cancellationToken);
+            var entity = await _context.DfsFileInfo.Include(x => x.Content)
+                .SingleOrDefaultAsync(x => x.Id == id, cancellationToken) ?? throw new FileNotFoundException();
 
             _context.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);

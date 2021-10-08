@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DistributedFileStorage.Abstractions
+﻿namespace DistributedFileStorage.Abstractions
 {
-    public class DfsFileInfo<TMetadata>
+    public class DfsFileInfo<TMetadata> : IDfsFileInfo<TMetadata>
     {
         public DfsFileInfo(string id, string name, long length, TMetadata? metadata = default)
         {

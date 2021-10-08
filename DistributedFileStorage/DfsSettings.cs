@@ -8,7 +8,7 @@ namespace DistributedFileStorage
         public Func<string> IdGenerator { get; set; }
             = static () => Guid.NewGuid().ToString("n");
 
-        public Func<string, string> PathGenerator { get; set; }
-            = static (id) => Path.GetFullPath(Path.Combine("stored_content", DateTime.Now.ToString(@"yyyy\\MM\\dd"), id));
+        public Func<string, string> PathBuilder { get; set; }
+            = static (fileId) => Path.GetFullPath($@"_dfs\{DateTime.Now:yyyy\\MM\\dd}\{fileId}");
     }
 }

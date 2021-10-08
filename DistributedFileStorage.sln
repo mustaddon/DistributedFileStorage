@@ -9,6 +9,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributedFileStorage.Abst
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistributedFileStorage.EntityFrameworkCore", "DistributedFileStorage.EntityFrameworkCore\DistributedFileStorage.EntityFrameworkCore.csproj", "{0D03322A-4BA8-403E-A083-FF135DE1A63E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0A22B75C-D6D9-475E-AB10-661739782ADB}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MsSqlDatabase", "Examples\MsSqlDatabase\MsSqlDatabase.sqlproj", "{C375CA81-3DF5-4EB7-9A0F-998679091477}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "Examples\ConsoleApp\ConsoleApp.csproj", "{28054100-3DCC-48C5-9E07-3FAEFA7CBFAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8AFE7CE0-1681-42FB-8462-43720250CABA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D058B05E-5008-44C6-9590-DBB239350048}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEfc", "Tests\TestEfc\TestEfc.csproj", "{14D46F94-E13B-41E2-B8CD-FBD46DDB8B1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +44,28 @@ Global
 		{0D03322A-4BA8-403E-A083-FF135DE1A63E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D03322A-4BA8-403E-A083-FF135DE1A63E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D03322A-4BA8-403E-A083-FF135DE1A63E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C375CA81-3DF5-4EB7-9A0F-998679091477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C375CA81-3DF5-4EB7-9A0F-998679091477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C375CA81-3DF5-4EB7-9A0F-998679091477}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C375CA81-3DF5-4EB7-9A0F-998679091477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C375CA81-3DF5-4EB7-9A0F-998679091477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C375CA81-3DF5-4EB7-9A0F-998679091477}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{28054100-3DCC-48C5-9E07-3FAEFA7CBFAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28054100-3DCC-48C5-9E07-3FAEFA7CBFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28054100-3DCC-48C5-9E07-3FAEFA7CBFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28054100-3DCC-48C5-9E07-3FAEFA7CBFAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D46F94-E13B-41E2-B8CD-FBD46DDB8B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D46F94-E13B-41E2-B8CD-FBD46DDB8B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D46F94-E13B-41E2-B8CD-FBD46DDB8B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D46F94-E13B-41E2-B8CD-FBD46DDB8B1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C375CA81-3DF5-4EB7-9A0F-998679091477} = {0A22B75C-D6D9-475E-AB10-661739782ADB}
+		{28054100-3DCC-48C5-9E07-3FAEFA7CBFAE} = {0A22B75C-D6D9-475E-AB10-661739782ADB}
+		{14D46F94-E13B-41E2-B8CD-FBD46DDB8B1B} = {D058B05E-5008-44C6-9590-DBB239350048}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2784CCA4-DE2D-446D-A881-B0D20697732F}

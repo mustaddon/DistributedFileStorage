@@ -21,35 +21,46 @@ namespace DistributedFileStorage
         private readonly IDfsDatabase<TMetadata> _database;
         private readonly DfsSettings _settings;
 
-        public async Task<string> Add(IAsyncEnumerator<byte[]> content, string name, TMetadata? metadata, CancellationToken cancellationToken = default)
+        public async Task<string> Add(IAsyncEnumerator<byte[]> content, string name, TMetadata? metadata = default, CancellationToken cancellationToken = default)
         {
             var id = _settings.IdGenerator();
-            var path = _settings.PathGenerator(id);
+            var path = _settings.PathBuilder(id);
 
-            var (hash, length) = await SaveContent(content, path, cancellationToken);
-
-            await SaveInfo(new()
+            try
             {
-                Id = id,
-                Name = name,
-                Metadata = metadata,
-                Path = path,
-                Length = length,
-                Hash = GetHashString(hash, length),
-            }, cancellationToken);
+                var (hash, length) = await SaveContent(content, path, cancellationToken);
+
+                await SaveInfo(new()
+                {
+                    Id = id,
+                    Name = name,
+                    Metadata = metadata,
+                    Path = path,
+                    Length = length,
+                    Hash = GetHashString(hash, length),
+                }, cancellationToken);
+            }
+            catch
+            {
+                if (File.Exists(path))
+                    File.Delete(path);
+
+                throw;
+            }
 
             return id;
         }
 
-        public Task UpdateInfo(string id, string name, TMetadata? metadata, CancellationToken cancellationToken = default)
+        public Task Update(string id, string name, TMetadata? metadata = default, CancellationToken cancellationToken = default)
         {
             return _database.Update(id, name, metadata, cancellationToken);
         }
 
-        public async Task<DfsFileInfo<TMetadata>> GetInfo(string id, CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<IDfsFileInfo<TMetadata>> GetInfos(IAsyncEnumerator<string> ids, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
-            var item = await _database.Get(id, cancellationToken);
-            return new(id, item.Name, item.Length, item.Metadata);
+            await foreach (var batch in Batches(ids))
+                foreach (var item in await _database.Get(batch, cancellationToken))
+                    yield return Map(item);
         }
 
         public async Task Delete(string id, CancellationToken cancellationToken = default)
@@ -63,7 +74,7 @@ namespace DistributedFileStorage
 
         public async IAsyncEnumerable<byte[]> GetContent(string id, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
-            var item = await _database.Get(id, cancellationToken);
+            var item = (await _database.Get(new[] { id }, cancellationToken)).FirstOrDefault() ?? throw new FileNotFoundException();
             var buffer = new byte[4096];
 
             using var file = new FileStream(item.Path,
@@ -72,8 +83,14 @@ namespace DistributedFileStorage
 
             var count = 0;
             while ((count = await file.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
-                yield return buffer.Length == count ? buffer : buffer.Take(count).ToArray();
+            {
+                var chunk = new byte[count];
+                Array.Copy(buffer, 0, chunk, 0, count);
+                yield return chunk;
+            }
         }
+
+
 
         private async Task<(byte[] hash, long length)> SaveContent(IAsyncEnumerator<byte[]> content, string path, CancellationToken cancellationToken)
         {
@@ -98,31 +115,19 @@ namespace DistributedFileStorage
 
         private async Task SaveInfo(DfsDbItem<TMetadata> item, CancellationToken cancellationToken)
         {
-            var tmpPath = item.Path;
+            var storedPath = await _database.GetPath(item.Hash, cancellationToken);
 
-            try
+            if (storedPath != null)
             {
-                var storedPath = await _database.GetPath(item.Hash, cancellationToken);
+                if (File.Exists(storedPath))
+                    File.Delete(item.Path);
+                else // heal missing path
+                    File.Move(item.Path, storedPath);
 
-                if (storedPath != null)
-                {
-                    item.Path = storedPath;
-
-                    if (File.Exists(storedPath))
-                        File.Delete(tmpPath);
-                    else // heal missing path
-                        File.Move(tmpPath, storedPath);
-                }
-
-                await _database.Add(item, cancellationToken);
+                item.Path = storedPath;
             }
-            catch
-            {
-                if (File.Exists(tmpPath))
-                    File.Delete(tmpPath);
 
-                throw;
-            }
+            await _database.Add(item, cancellationToken);
         }
 
         private static string GetHashString(byte[] hash, long length)
@@ -132,5 +137,28 @@ namespace DistributedFileStorage
             return Convert.ToBase64String(bytes, 0, bytes.Length - zeroes);
         }
 
+        private async IAsyncEnumerable<IEnumerable<T>> Batches<T>(IAsyncEnumerator<T> items, int size = 1000)
+        {
+            var tmp = new List<T>();
+
+            while (await items.MoveNextAsync())
+            {
+                tmp.Add(items.Current);
+
+                if (tmp.Count >= size)
+                {
+                    yield return tmp;
+                    tmp.Clear();
+                }
+            }
+
+            if (tmp.Any())
+                yield return tmp;
+        }
+
+        private DfsFileInfo<TMetadata> Map(DfsDbItem<TMetadata> item)
+        {
+            return new DfsFileInfo<TMetadata>(item.Id, item.Name, item.Length, item.Metadata);
+        }
     }
 }

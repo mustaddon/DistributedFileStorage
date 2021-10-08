@@ -14,7 +14,8 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         public static IServiceCollection AddDfsEfc<TMetadata>(this IServiceCollection services,
-            Action<IServiceProvider, DfsEfcOptions> optionsBuilder, ServiceLifetime lifetime = ServiceLifetime.Scoped)
+            Action<IServiceProvider, DfsEfcOptions> optionsBuilder, 
+            ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
             services.Add(new ServiceDescriptor(typeof(DfsEfcOptions), x =>
             {
@@ -23,11 +24,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 return options;
             }, lifetime));
 
-            services.AddTransient(x => x.GetRequiredService<DfsEfcOptions>().DbContextConfigurator);
             services.AddTransient(x => x.GetRequiredService<DfsEfcOptions>().Database);
             services.AddTransient(x => x.GetRequiredService<DfsEfcOptions>().FileStorage);
 
-            services.Add(new ServiceDescriptor(typeof(DfsDbContext), typeof(DfsDbContext), lifetime));
             services.Add(new ServiceDescriptor(typeof(IDfsDatabase<TMetadata>), typeof(DfsDatabase<TMetadata>), lifetime));
             services.Add(new ServiceDescriptor(typeof(IDistributedFileStorage<TMetadata>), typeof(DistributedFileStorage<TMetadata>), lifetime));
 

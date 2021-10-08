@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[DfsContentInfo]
+(
+	[Id] VARCHAR(56) NOT NULL PRIMARY KEY,
+	[Length] BIGINT NOT NULL,
+	[Path] NVARCHAR(256) NOT NULL,
+)
