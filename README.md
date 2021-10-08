@@ -10,9 +10,8 @@
 
 
 
-### Example: Simple console app
-console:
-```console
+## Example: Simple console app
+```
 dotnet new console --name "DfsExample"
 cd DfsExample
 dotnet add package DistributedFileStorage.EntityFrameworkCore
@@ -57,4 +56,5 @@ await foreach (var chunk in dfs.GetContent(fileId))
 ```
 
 
-[MsSqlDatabase project](https://github.com/mustaddon/DistributedFileStorage/Examples/MsSqlDatabase)
+MsSql: 
+[database project](https://github.com/mustaddon/DistributedFileStorage/tree/main/Examples/MsSqlDatabase)
