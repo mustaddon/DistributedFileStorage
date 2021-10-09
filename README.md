@@ -56,5 +56,4 @@ await foreach (var chunk in dfs.GetContent(fileId))
 ```
 
 
-MsSql: 
-[database project](https://github.com/mustaddon/DistributedFileStorage/tree/main/Examples/MsSqlDatabase)
+[More examples...](https://github.com/mustaddon/DistributedFileStorage/tree/main/Examples/)
