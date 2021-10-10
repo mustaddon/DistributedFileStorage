@@ -1,4 +1,5 @@
-﻿using DistributedFileStorage.Abstractions;
+﻿using DistributedFileStorage;
+using DistributedFileStorage.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -7,24 +8,24 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestEfc
+namespace Common
 {
-    [TestClass()]
-    public class DfsTests
+    public abstract class Tests
     {
-        public DfsTests()
+        public Tests(IServiceProvider serviceProvider)
         {
-            _dfs = Common.App.Value.Services.GetRequiredService<IDistributedFileStorage<TestMetadata>>();
+            _dfs = serviceProvider.GetRequiredService<IDistributedFileStorage<TestMetadata>>();
+            _dfsSettings = serviceProvider.GetRequiredService<DfsSettings>();
         }
 
         readonly IDistributedFileStorage<TestMetadata> _dfs;
-
+        readonly DfsSettings _dfsSettings;
 
 
         [TestMethod()]
         public async Task TestAdd()
         {
-            var file = Common.GenerateFile();
+            var file = Utils.GenerateFile();
             var fileId = await _dfs.Add(file.Content, file.Name, file.Metadata);
 
             Assert.IsFalse(string.IsNullOrWhiteSpace(fileId));
@@ -34,7 +35,7 @@ namespace TestEfc
         [TestMethod()]
         public async Task TestGetInfo()
         {
-            var file = Common.GenerateFile();
+            var file = Utils.GenerateFile();
             var fileId = await _dfs.Add(file.Content, file.Name, file.Metadata);
             var info = await _dfs.GetInfo(fileId);
             await _dfs.Delete(fileId);
@@ -47,14 +48,14 @@ namespace TestEfc
         [TestMethod()]
         public async Task TestGetInfos()
         {
-            var file = Common.GenerateFile();
+            var file = Utils.GenerateFile();
             file.Metadata = null;
 
             var fileId = await _dfs.Add(file.Content, file.Name);
             try
             {
                 var ids = new[] { fileId }
-                    .Concat(Enumerable.Range(0, 3000).Select(i => Guid.NewGuid().ToString("n")))
+                    .Concat(Enumerable.Range(0, 3000).Select(i => _dfsSettings.IdGenerator()))
                     .Concat(new[] { fileId });
 
                 await foreach (var info in _dfs.GetInfos(ids))
@@ -73,7 +74,7 @@ namespace TestEfc
         [TestMethod()]
         public async Task TestUpdate()
         {
-            var file = Common.GenerateFile();
+            var file = Utils.GenerateFile();
             var fileId = await _dfs.Add(file.Content, file.Name, file.Metadata);
 
             file.Name = "updated.txt";
@@ -91,20 +92,20 @@ namespace TestEfc
         [TestMethod()]
         public async Task TestGetContentStream()
         {
-            var file = Common.GenerateFile();
+            var file = Utils.GenerateFile();
             using var stream = new MemoryStream(file.Content);
             var fileId = await _dfs.Add(stream, file.Name, file.Metadata);
             await TestGetContent(file, fileId);
         }
 
         [TestMethod()]
-        public Task TestGetContent() => TestGetContent(Common.GenerateFile());
+        public Task TestGetContent() => TestGetContent(Utils.GenerateFile());
 
         [TestMethod()]
-        public Task TestGetContentEmpty() => TestGetContent(Common.GenerateFile(null, 0));
+        public Task TestGetContentEmpty() => TestGetContent(Utils.GenerateFile(null, 0));
 
         [TestMethod()]
-        public Task TestGetContentSmall() => TestGetContent(Common.GenerateFile("small", 1));
+        public Task TestGetContentSmall() => TestGetContent(Utils.GenerateFile("small", 1));
 
         private async Task TestGetContent(TestFile file)
         {

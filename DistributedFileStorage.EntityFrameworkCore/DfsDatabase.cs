@@ -30,9 +30,6 @@ namespace DistributedFileStorage.EntityFrameworkCore
                 ContentId = item.Hash,
             };
 
-            if (fileInfo.Metadata?.Length > _settings.MaxMetadataLength)
-                throw new InvalidOperationException($"Metadata length limit exceeded ({fileInfo.Metadata?.Length}/{_settings.MaxMetadataLength})");
-
             var contentInfo = new DfsDbContentInfo
             {
                 Id = item.Hash,
@@ -123,10 +120,13 @@ namespace DistributedFileStorage.EntityFrameworkCore
 
         private string? SerializeMetadata(TMetadata? metadata)
         {
-            if (metadata == null || metadata is string)
-                return metadata as string;
+            var result = metadata == null || metadata is string ? metadata as string
+                : JsonConvert.SerializeObject(metadata, _settings.JsonSerializer);
 
-            return JsonConvert.SerializeObject(metadata, _settings.JsonSerializer);
+            if (result?.Length > _settings.MaxMetadataLength)
+                throw new InvalidOperationException($"Metadata length limit exceeded ({result?.Length}/{_settings.MaxMetadataLength})");
+
+            return result;
         }
 
         private TMetadata? DeserializeMetadata(string? metadata)

@@ -15,7 +15,7 @@
     <PackageId>DistributedFileStorage.EntityFrameworkCore</PackageId>
     <Product>DistributedFileStorage.EntityFrameworkCore</Product>
     <Title>DistributedFileStorage.EntityFrameworkCore</Title>
-    <Description>EntityFramework implementation of IDfsDatabase</Description>
+    <Description>.NET Distributed file storage with EntityFrameworkCore implementation of IDfsDatabase</Description>
     <PackageTags>distributed filestorage entityframework efcore dfs dotnet</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/mustaddon/DistributedFileStorage</PackageProjectUrl>
