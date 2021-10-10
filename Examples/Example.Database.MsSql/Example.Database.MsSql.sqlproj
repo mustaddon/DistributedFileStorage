@@ -3,16 +3,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>MsSqlDatabase</Name>
+    <Name>Example.Database.MsSql</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{c375ca81-3df5-4eb7-9a0f-998679091477}</ProjectGuid>
+    <ProjectGuid>{e27c215a-962e-426a-b452-a2014ced7866}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>MsSqlDatabase</RootNamespace>
-    <AssemblyName>MsSqlDatabase</AssemblyName>
+    <RootNamespace>Example.Database.MsSql</RootNamespace>
+    <AssemblyName>Example.Database.MsSql</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>

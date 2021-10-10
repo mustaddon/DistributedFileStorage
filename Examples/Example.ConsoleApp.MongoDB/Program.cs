@@ -1,6 +1,5 @@
-﻿using ConsoleApp;
-using DistributedFileStorage.Abstractions;
-using Microsoft.EntityFrameworkCore;
+﻿using DistributedFileStorage.Abstractions;
+using Example.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -12,10 +11,10 @@ var app = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
         // add services to the container
-        services.AddDfsEfc<MyCustomMetadata>((sp, options) =>
+        services.AddDfsMongo<ExampleMetadata>((sp, options) =>
         {
-            // add database provider 
-            options.Database.ContextConfigurator = (db) => db.UseSqlServer(hostContext.Configuration.GetConnectionString("dfs"));
+            // add database settings 
+            options.Database.ConnectionString = hostContext.Configuration.GetConnectionString("dfs");
 
             // add path construction algorithm 
             var rnd = new Random();
@@ -25,11 +24,11 @@ var app = Host.CreateDefaultBuilder(args)
     .Build();
 
 
-var dfs = app.Services.GetRequiredService<IDistributedFileStorage<MyCustomMetadata>>();
+var dfs = app.Services.GetRequiredService<IDistributedFileStorage<ExampleMetadata>>();
 
 // upload
-using var uploadFile = Example.GenerateTextFileStream();
-var fileId = await dfs.Add(uploadFile, $"example.txt", new MyCustomMetadata { Author = "User" });
+using var uploadFile = Utils.GenerateTextFileStream();
+var fileId = await dfs.Add(uploadFile, $"example.txt", new ExampleMetadata { Author = "User" });
 
 // get info
 var fileInfo = await dfs.GetInfo(fileId);
