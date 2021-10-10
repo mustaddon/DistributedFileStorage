@@ -3,7 +3,7 @@
 
 
 ## Features
-* Storing metadata in the database
+* Storing metadata in the database (SQL/NoSQL)
 * Storing files in the file system
 * Deduplication of files by content
 * Distributed storage
