@@ -6,17 +6,17 @@
     <Nullable>enable</Nullable>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\DistributedFileStorage.snk</AssemblyOriginatorKeyFile>
-	<AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
-    <Version>1.0.0</Version>
+	<AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
+    <Version>1.0.1</Version>
 	<Company></Company>
     <Authors>Leonid Salavatov</Authors>
     <Copyright>Leonid Salavatov 2021</Copyright>
     <PackageId>DistributedFileStorage.EntityFrameworkCore</PackageId>
     <Product>DistributedFileStorage.EntityFrameworkCore</Product>
     <Title>DistributedFileStorage.EntityFrameworkCore</Title>
-    <Description>.NET Distributed file storage with EntityFrameworkCore implementation of IDfsDatabase</Description>
-    <PackageTags>distributed filestorage entityframework efcore dfs dotnet</PackageTags>
+    <Description>.NET DistributedFileStorage with EntityFrameworkCore</Description>
+    <PackageTags>distributed filestorage blobstorage entityframework efcore blob dfs dotnet</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/mustaddon/DistributedFileStorage</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mustaddon/DistributedFileStorage</RepositoryUrl>
@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 

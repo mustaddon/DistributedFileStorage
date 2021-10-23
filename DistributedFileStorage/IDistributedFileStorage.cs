@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DistributedFileStorage.Abstractions
+namespace DistributedFileStorage
 {
     public interface IDistributedFileStorage<TMetadata> : IReadOnlyDfs<TMetadata>
     {

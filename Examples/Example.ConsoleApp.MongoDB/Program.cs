@@ -1,4 +1,4 @@
-﻿using DistributedFileStorage.Abstractions;
+﻿using DistributedFileStorage;
 using Example.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

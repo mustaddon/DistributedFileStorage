@@ -1,5 +1,4 @@
 ﻿using DistributedFileStorage;
-using DistributedFileStorage.Abstractions;
 using DistributedFileStorage.EntityFrameworkCore;
 using System;
 
@@ -14,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         public static IServiceCollection AddDfsEfc<TMetadata>(this IServiceCollection services,
-            Action<IServiceProvider, DfsEfcOptions> optionsBuilder, 
+            Action<IServiceProvider, DfsEfcOptions> optionsBuilder,
             ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
             services.Add(new ServiceDescriptor(typeof(DfsEfcOptions), x =>

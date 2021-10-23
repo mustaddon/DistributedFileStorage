@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DistributedFileStorage.Abstractions
+namespace DistributedFileStorage
 {
     public static class DfsExtensions
     {

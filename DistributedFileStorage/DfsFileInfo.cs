@@ -1,4 +1,4 @@
-﻿namespace DistributedFileStorage.Abstractions
+﻿namespace DistributedFileStorage
 {
     public class DfsFileInfo<TMetadata> : IDfsFileInfo<TMetadata>
     {

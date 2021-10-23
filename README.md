@@ -6,7 +6,7 @@
 * Storing metadata in the database (SQL/NoSQL)
 * Storing files in the file system
 * Deduplication of files by content
-* Distributed storage
+* Distributed storage (multiple disks)
 
 
 
@@ -20,7 +20,7 @@ dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 
 program.cs:
 ```C#
-using DistributedFileStorage.Abstractions;
+using DistributedFileStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

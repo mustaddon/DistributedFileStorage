@@ -1,4 +1,4 @@
-﻿using DistributedFileStorage.Abstractions;
+﻿using DistributedFileStorage;
 using Example.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
