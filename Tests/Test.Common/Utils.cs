@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Common
+namespace Test.Common
 {
     public class Utils
     {

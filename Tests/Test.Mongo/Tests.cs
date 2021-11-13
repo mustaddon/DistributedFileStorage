@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TestEfc
+namespace Test.Mongo
 {
     [TestClass()]
     public class Tests : Common.Tests

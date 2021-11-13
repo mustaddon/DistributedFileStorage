@@ -1,9 +1,9 @@
-﻿using Common;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Test.Common;
 
-namespace TestMongo
+namespace Test.Mongo
 {
     internal class App
     {

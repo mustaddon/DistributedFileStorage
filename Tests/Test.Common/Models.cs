@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common
+namespace Test.Common
 {
     public class TestMetadata
     {

@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>netstandard2.1</TargetFramework>
+	<TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>
 	<LangVersion>latest</LangVersion>
 	<Nullable>enable</Nullable>
 	<SignAssembly>True</SignAssembly>
 	<AssemblyOriginatorKeyFile>..\DistributedFileStorage.snk</AssemblyOriginatorKeyFile>
-	<AssemblyVersion>1.0.1</AssemblyVersion>
-	<FileVersion>1.0.1</FileVersion>
-	<Version>1.0.1</Version>
+	<AssemblyVersion>1.0.2</AssemblyVersion>
+	<FileVersion>1.0.2</FileVersion>
+	<Version>1.0.2</Version>
 	<Company></Company>
 	<Authors>Leonid Salavatov</Authors>
 	<Copyright>Leonid Salavatov 2021</Copyright>
@@ -26,8 +26,14 @@
 	<NeutralLanguage />
 	<PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
 	
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net6.0'">
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

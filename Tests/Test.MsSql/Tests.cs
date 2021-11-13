@@ -1,9 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Bson;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace TestMongo
+namespace Test.EFCore
 {
     [TestClass()]
     public class Tests : Common.Tests
