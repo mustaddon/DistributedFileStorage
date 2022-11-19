@@ -23,6 +23,6 @@ namespace DistributedFileStorage
         public TMetadata? Metadata { get; set; }
 
         public override int GetHashCode() => Id.GetHashCode();
-        public override bool Equals(object obj) => Id == (obj as DfsDbItem<TMetadata>)?.Id;
+        public override bool Equals(object? obj) => Id == (obj as DfsDbItem<TMetadata>)?.Id;
     }
 }

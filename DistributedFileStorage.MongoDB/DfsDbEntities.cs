@@ -15,6 +15,6 @@ namespace DistributedFileStorage.MongoDB
         public string? Metadata { get; set; }
 
         public override int GetHashCode() => Id.GetHashCode();
-        public override bool Equals(object obj) => Id == (obj as DfsDbFileInfo<TMetadata>)?.Id;
+        public override bool Equals(object? obj) => Id == (obj as DfsDbFileInfo<TMetadata>)?.Id;
     }
 }

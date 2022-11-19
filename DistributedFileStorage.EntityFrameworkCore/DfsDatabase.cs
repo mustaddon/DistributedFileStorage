@@ -85,7 +85,7 @@ namespace DistributedFileStorage.EntityFrameworkCore
 
             if (!await _context.DfsFileInfo.AnyAsync(x => x.ContentId == entity.ContentId, cancellationToken))
             {
-                _context.Remove(entity.Content);
+                _context.Remove(entity.Content!);
                 await _context.SaveChangesAsync(cancellationToken);
             }
 
@@ -105,7 +105,7 @@ namespace DistributedFileStorage.EntityFrameworkCore
             };
         }
 
-        private async Task WithRetry(int retries, Func<int, Task> task)
+        private static async Task WithRetry(int retries, Func<int, Task> task)
         {
             for (var i = 0; i <= retries; i++)
                 try

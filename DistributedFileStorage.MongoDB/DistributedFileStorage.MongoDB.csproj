@@ -1,22 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>
+	<TargetFrameworks>netstandard2.1;net6.0;net7.0</TargetFrameworks>
 	<LangVersion>latest</LangVersion>
 	<Nullable>enable</Nullable>
 	<SignAssembly>True</SignAssembly>
 	<AssemblyOriginatorKeyFile>..\DistributedFileStorage.snk</AssemblyOriginatorKeyFile>
-	<AssemblyVersion>1.0.2</AssemblyVersion>
-	<FileVersion>1.0.2</FileVersion>
-	<Version>1.0.2</Version>
+	<AssemblyVersion>1.0.3</AssemblyVersion>
+	<FileVersion>1.0.3</FileVersion>
+	<Version>1.0.3</Version>
 	<Company></Company>
 	<Authors>Leonid Salavatov</Authors>
-	<Copyright>Leonid Salavatov 2021</Copyright>
+	<Copyright>Leonid Salavatov 2022</Copyright>
 	<PackageId>DistributedFileStorage.MongoDB</PackageId>
 	<Product>DistributedFileStorage.MongoDB</Product>
 	<Title>DistributedFileStorage.MongoDB</Title>
 	<Description>.NET DistributedFileStorage with MongoDB</Description>
-	<PackageTags>distributed filestorage blobstorage mongodb mongo blob dfs dotnet</PackageTags>
+	<PackageTags>filestorage file-storage blobstorage blob-storage distributed-storage storage mongodb mongo blob dfs</PackageTags>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageProjectUrl>https://github.com/mustaddon/DistributedFileStorage</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/mustaddon/DistributedFileStorage</RepositoryUrl>
@@ -27,20 +27,14 @@
 	<PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
-	
-  <ItemGroup Condition="'$(TargetFramework)' != 'net6.0'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  <ItemGroup>
+    <ProjectReference Include="..\DistributedFileStorage\DistributedFileStorage.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DistributedFileStorage\DistributedFileStorage.csproj" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

@@ -16,6 +16,6 @@
         public TMetadata? Metadata { get; }
 
         public override int GetHashCode() => Id.GetHashCode();
-        public override bool Equals(object obj) => Id == (obj as DfsFileInfo<TMetadata>)?.Id;
+        public override bool Equals(object? obj) => Id == (obj as DfsFileInfo<TMetadata>)?.Id;
     }
 }

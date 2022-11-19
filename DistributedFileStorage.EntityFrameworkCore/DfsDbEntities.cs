@@ -9,7 +9,7 @@
         public DfsDbContentInfo? Content { get; set; }
 
         public override int GetHashCode() => Id.GetHashCode();
-        public override bool Equals(object obj) => Id == (obj as DfsDbFileInfo)?.Id;
+        public override bool Equals(object? obj) => Id == (obj as DfsDbFileInfo)?.Id;
     }
 
     internal class DfsDbContentInfo
@@ -19,6 +19,6 @@
         public long Length { get; set; }
 
         public override int GetHashCode() => Id.GetHashCode();
-        public override bool Equals(object obj) => Id == (obj as DfsDbContentInfo)?.Id;
+        public override bool Equals(object? obj) => Id == (obj as DfsDbContentInfo)?.Id;
     }
 }

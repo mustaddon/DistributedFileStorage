@@ -91,9 +91,9 @@ namespace DistributedFileStorage
 
 
 
-        private async Task<(byte[] hash, long length)> SaveContent(IAsyncEnumerator<byte[]> content, string path, CancellationToken cancellationToken)
+        private static async Task<(byte[] hash, long length)> SaveContent(IAsyncEnumerator<byte[]> content, string path, CancellationToken cancellationToken)
         {
-            (new FileInfo(path)).Directory.Create();
+            (new FileInfo(path)).Directory!.Create();
 
             using var file = File.Create(path);
             using var sha = SHA256.Create();
@@ -108,8 +108,8 @@ namespace DistributedFileStorage
                 length += content.Current.Length;
             }
 
-            sha.TransformFinalBlock(new byte[0], 0, 0);
-            return (sha.Hash, length);
+            sha.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+            return (sha.Hash!, length);
         }
 
         private async Task SaveInfo(DfsDbItem<TMetadata> item, CancellationToken cancellationToken)
@@ -136,7 +136,7 @@ namespace DistributedFileStorage
             return Convert.ToBase64String(bytes, 0, bytes.Length - zeroes);
         }
 
-        private async IAsyncEnumerable<IEnumerable<T>> Batches<T>(IAsyncEnumerator<T> items, int size = 1000)
+        private static async IAsyncEnumerable<IEnumerable<T>> Batches<T>(IAsyncEnumerator<T> items, int size = 1000)
         {
             var tmp = new List<T>();
 
@@ -155,7 +155,7 @@ namespace DistributedFileStorage
                 yield return tmp;
         }
 
-        private DfsFileInfo<TMetadata> Map(DfsDbItem<TMetadata> item)
+        private static DfsFileInfo<TMetadata> Map(DfsDbItem<TMetadata> item)
         {
             return new DfsFileInfo<TMetadata>(item.Id, item.Name, item.Length, item.Metadata);
         }
