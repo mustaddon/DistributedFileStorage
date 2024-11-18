@@ -9,10 +9,9 @@ namespace Test.Common
         public Tests(IServiceProvider serviceProvider)
         {
             _dfs = serviceProvider.GetRequiredService<IDistributedFileStorage<TestMetadata>>();
-            _dfsSettings = serviceProvider.GetRequiredService<DfsSettings>();
         }
 
         readonly IDistributedFileStorage<TestMetadata> _dfs;
-        readonly DfsSettings _dfsSettings;
+        readonly DfsSettings _dfsSettings = new();
     }
 }

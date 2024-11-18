@@ -5,6 +5,10 @@ namespace DistributedFileStorage.EntityFrameworkCore
 {
     public class DfsDbSettings
     {
+        public string FileInfoTable { get; set; } = "DfsFileInfo";
+
+        public string ContentInfoTable { get; set; } = "DfsContentInfo";
+
         public int? MaxMetadataLength { get; set; }
 
         public JsonSerializerSettings JsonSerializer { get; set; } = new()

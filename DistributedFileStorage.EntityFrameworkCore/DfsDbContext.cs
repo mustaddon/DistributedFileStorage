@@ -6,20 +6,28 @@ namespace DistributedFileStorage.EntityFrameworkCore
 
     internal class DfsDbContext : DbContext
     {
-        public DfsDbContext(DfsDbContextConfigurator configurator)
+        public DfsDbContext(DfsDbSettings settings)
         {
-            _configurator = configurator;
+            _settings = settings;
 
             DfsFileInfo = Set<DfsDbFileInfo>();
             DfsContentInfo = Set<DfsDbContentInfo>();
         }
 
-        private readonly DfsDbContextConfigurator _configurator;
+        private readonly DfsDbSettings _settings;
 
         public DbSet<DfsDbFileInfo> DfsFileInfo { get; private set; }
         public DbSet<DfsDbContentInfo> DfsContentInfo { get; private set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => _configurator(optionsBuilder);
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => _settings.ContextConfigurator(optionsBuilder);
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DfsDbFileInfo>().ToTable(_settings.FileInfoTable);
+            modelBuilder.Entity<DfsDbContentInfo>().ToTable(_settings.ContentInfoTable);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 
 }

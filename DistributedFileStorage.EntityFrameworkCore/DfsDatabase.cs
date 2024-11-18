@@ -9,16 +9,22 @@ using System.Threading.Tasks;
 
 namespace DistributedFileStorage.EntityFrameworkCore
 {
-    public class DfsDatabase<TMetadata> : IDfsDatabase<TMetadata>
+    public class DfsDatabase<TMetadata> : IDfsDatabase<TMetadata>, IDisposable
     {
         public DfsDatabase(DfsDbSettings? settings = null)
         {
             _settings = settings ?? new();
-            _context = new(_settings.ContextConfigurator);
+            _context = new(_settings);
         }
 
         readonly DfsDbContext _context;
         readonly DfsDbSettings _settings;
+
+        public void Dispose()
+        {
+            _context.Dispose();
+            GC.SuppressFinalize(this);
+        }
 
         public Task Add(DfsDbItem<TMetadata> item, CancellationToken cancellationToken = default)
         {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DistributedFileStorage.MongoDB
 {
-    public class DfsDatabase<TMetadata> : IDfsDatabase<TMetadata>
+    public class DfsDatabase<TMetadata> : IDfsDatabase<TMetadata>, IDisposable
     {
         public DfsDatabase(DfsDbSettings? settings = null)
         {
@@ -25,6 +25,14 @@ namespace DistributedFileStorage.MongoDB
 
         readonly DfsDbSettings _settings;
         readonly Lazy<IMongoCollection<DfsDbFileInfo<TMetadata>>> _fileInfos;
+
+        public void Dispose()
+        {
+            if (_fileInfos.IsValueCreated)
+                _fileInfos.Value.Database.Client.Dispose();
+
+            GC.SuppressFinalize(this);
+        }
 
         public Task Add(DfsDbItem<TMetadata> item, CancellationToken cancellationToken = default)
         {
