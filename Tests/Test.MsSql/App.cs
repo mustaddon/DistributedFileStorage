@@ -14,7 +14,7 @@ namespace Test.EFCore
             var builder = Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddDfsEfc<TestMetadata>((sp, options) =>
+                    services.AddDfsEfc<TestMetadata>(options =>
                     {
                         options.Database.ContextConfigurator = (db) => db.UseSqlServer(hostContext.Configuration.GetConnectionString("dfs"));
                     });

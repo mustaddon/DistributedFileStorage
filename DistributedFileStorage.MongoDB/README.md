@@ -26,7 +26,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 // add services to the container
 var services = new ServiceCollection()
-    .AddDfsMongo<string>((sp, options) =>
+    .AddDfsMongo<string>(options =>
     {
         // add database settings 
         options.Database.ConnectionString = "mongodb://localhost:27017";

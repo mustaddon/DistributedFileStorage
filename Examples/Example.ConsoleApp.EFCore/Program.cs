@@ -12,7 +12,7 @@ var app = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
         // add services to the container
-        services.AddDfsEfc<ExampleMetadata>((sp, options) =>
+        services.AddDfsEfc<ExampleMetadata>(options =>
         {
             // add database provider 
             options.Database.ContextConfigurator = (db) => db.UseSqlServer(hostContext.Configuration.GetConnectionString("dfs"));

@@ -27,7 +27,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 // add services to the container
 var services = new ServiceCollection()
-    .AddDfsEfc<string>((sp, options) =>
+    .AddDfsEfc<string>(options =>
     {
         // add database provider 
         options.Database.ContextConfigurator = (db) => db.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DfsDatabase;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False");

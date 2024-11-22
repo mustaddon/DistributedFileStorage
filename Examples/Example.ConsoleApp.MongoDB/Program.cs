@@ -11,7 +11,7 @@ var app = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
         // add services to the container
-        services.AddDfsMongo<ExampleMetadata>((sp, options) =>
+        services.AddDfsMongo<ExampleMetadata>(options =>
         {
             // add database settings 
             options.Database.ConnectionString = hostContext.Configuration.GetConnectionString("dfs");
